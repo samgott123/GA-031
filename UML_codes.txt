@@ -1,0 +1,151 @@
+@startuml
+
+class Assembler {
+  - rawData: Data
+  + assembleData(): Data
+}
+
+class Data {
+  - sourceData: List<String>
+  - processedData: List<String>
+  + cleanData(): void
+  + transformData(): void
+}
+
+Assembler --> Data: Uses
+
+@enduml
+
+
+#################################
+@startuml
+
+class CriarModelo {
+  - modelos: List<Modelo>
+  + criarModelo(tipo: TipoModelo): Modelo
+}
+
+class Modelo {
+  - parametros: Dict[str, Any]
+  + treinarModelo(dados: Dados): ResultadoTreinamento
+}
+
+class TipoModelo {
+  - nome: str
+}
+
+class Dados {
+  - conjuntoTreinamento: List[Registro]
+}
+
+class Registro {
+  - atributos: Dict[str, Any]
+}
+
+class ResultadoTreinamento {
+  - sucesso: bool
+  - mensagem: str
+}
+
+CriarModelo --> Modelo: Cria
+Modelo --> Dados: Usa
+Modelo --> TipoModelo: Conhece
+Dados --> Registro: Contém
+Modelo --> ResultadoTreinamento: Retorna
+
+@enduml
+
+
+#################################
+@startuml
+
+class TreinarModelo {
+  + treinarModelo(modelo: Modelo, dados: Dados): ResultadoTreinamento
+}
+
+class Modelo {
+  - parametros: Dict[str, Any]
+}
+
+class Dados {
+  - conjuntoTreinamento: List[Registro]
+}
+
+class Registro {
+  - atributos: Dict[str, Any]
+}
+
+class ResultadoTreinamento {
+  - sucesso: bool
+  - mensagem: str
+}
+
+TreinarModelo --> Modelo: Usa
+TreinarModelo --> Dados: Usa
+Modelo --> ResultadoTreinamento: Retorna
+
+@enduml
+
+
+#################################
+@startuml
+
+class SelecaoModelo {
+  + selecionarModelo(modelos: List[Modelo], dados: Dados): Modelo
+}
+
+class Modelo {
+  - parametros: Dict[str, Any]
+  + avaliarDesempenho(dados: Dados): float
+}
+
+class Dados {
+  - conjuntoValidacao: List[Registro]
+}
+
+class Registro {
+  - atributos: Dict[str, Any]
+}
+
+SelecaoModelo --> Modelo: Usa
+Modelo --> Dados: Usa
+
+@enduml
+
+
+
+################################
+@startuml
+
+class AnaliseSeriesTemporais {
+  + analisarSeriesTemporais(dados: Dados): ResultadoAnalise
+}
+
+class Dados {
+  - serieTemporal: List[PontoTemporal]
+}
+
+class PontoTemporal {
+  - timestamp: DateTime
+  - valor: float
+}
+
+class ResultadoAnalise {
+  - tendencia: float
+  - sazonalidade: float
+  - anomalias: List[Anomalia>
+}
+
+class Anomalia {
+  - timestamp: DateTime
+  - descricao: str
+}
+
+AnaliseSeriesTemporais --> Dados: Usa
+Dados --> PontoTemporal: Contém
+AnaliseSeriesTemporais --> ResultadoAnalise: Retorna
+ResultadoAnalise --> Anomalia: Contém
+
+@enduml
+
+
